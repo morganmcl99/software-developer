@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFL Output - Part 2 Lab Task</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        .badService {background: red;}
+        .goodService {background: green;}
+    </style>
+    <script>
+        $(function () {
+            $.getJSON("https://api.tfl.gov.uk/Line/Mode/tube/Status", function (res) {
+                for (i = 0; i < res.length; i++) {
+                    $("#divInfo").append(`<div id="tfl_message">Station ${res[i].name} - ${res[i].name} - status: ${res[i].lineStatuses[0].statusSeverityDescription}  </div>`);
+                    $current_status = `${res[i].lineStatuses[0].statusSeverityDescription}`;
+                    if($current_status == 'Good Service') { $("#tfl_message").addClass("goodService"); }
+                    else if($current_status == 'Severe Delays') { $("#tfl_message").addClass("badService"); }
+                }
+            });  
+        });
+    </script>
+</head>
+<body>
+    <div id="divInfo"></div>
+</body>
+</html>
